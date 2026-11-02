@@ -6,7 +6,7 @@ Aplicación web dinámica para explorar las defunciones no fetales ocurridas en 
 
 ## Objetivo
 
-Facilitar la identificación de patrones territoriales, temporales, demográficos y causales de mortalidad mediante visualizaciones interactivas y una presentación accesible desde navegadores de escritorio y dispositivos móviles.
+Facilitar la identificación de patrones territoriales, temporales, demográficos y causales de mortalidad mediante visualizaciones.
 
 ## Visualizaciones
 
@@ -100,11 +100,6 @@ El script normaliza los códigos territoriales, vincula municipio y departamento
 5. Confirmar la creación y esperar a que termine la compilación.
 6. Abrir la URL pública asignada por Render y comprobar el mapa, los filtros y la tabla.
 
-Configuración equivalente si se crea un **Web Service** manualmente:
-
-- Build command: `pip install -r requirements.txt`
-- Start command: `gunicorn app:server`
-- Health check path: `/`
 
 ## Resultados principales
 
@@ -113,8 +108,6 @@ Configuración equivalente si se crea un **Web Service** manualmente:
 - La distribución por sexo muestra más defunciones de hombres que de mujeres en el total nacional.
 - El grupo de vejez concentra la mayor parte de las defunciones, seguido por longevidad y adultez intermedia.
 - La categoría X95 se calcula con todos los códigos de cuatro caracteres cuyo prefijo es `X95`.
-
-> Nota metodológica: “menor índice de mortalidad” se presenta como menor número absoluto de defunciones. Calcular una tasa o índice requiere denominadores de población municipal, no incluidos en los archivos suministrados.
 
 ## Capturas de pantalla y explicación de resultados
 
