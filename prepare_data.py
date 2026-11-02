@@ -92,7 +92,7 @@ def main() -> None:
         .groupby(["COD_DANE", "MUNICIPIO", "DEPARTAMENTO"], as_index=False)
         .size().rename(columns={"size": "TOTAL"})
         .sort_values(["TOTAL", "MUNICIPIO", "DEPARTAMENTO"])
-        .head(10)
+        .head(5)
     )
 
     top_causes = (

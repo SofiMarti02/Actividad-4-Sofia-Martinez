@@ -13,7 +13,7 @@ Facilitar la identificación de patrones territoriales, temporales, demográfico
 1. Mapa coroplético del total de defunciones por departamento.
 2. Serie mensual con filtros por departamento y sexo.
 3. Cinco ciudades con más homicidios asociados al prefijo CIE-10 `X95`.
-4. Diez ciudades con menor número de defunciones registradas.
+4. Cinco ciudades con menor número de defunciones registradas.
 5. Tabla de las diez causas específicas de muerte más frecuentes.
 6. Barras apiladas de defunciones por sexo y departamento.
 7. Distribución por ciclo de vida según los rangos de `GRUPO_EDAD1` indicados en la actividad.
@@ -128,7 +128,7 @@ La vista nacional reúne 244.355 defunciones. El mapa permite identificar la con
 
 ![Dashboard filtrado por Antioquia](assets/dashboard-filtro-antioquia.png)
 
-Al elegir Antioquia, la serie mensual y la distribución por ciclo de vida se recalculan sin modificar las comparaciones nacionales de referencia. Este comportamiento permite contrastar el patrón departamental con el contexto general del país.
+Al elegir Antioquia, el mapa resalta el departamento con un contorno dorado y la serie mensual y la distribución por ciclo de vida se recalculan. Este comportamiento permite contrastar el patrón departamental con el contexto general del país.
 
 ## Fuentes
 

@@ -25,7 +25,7 @@ assert ages["TOTAL"].sum() == total
 assert len(departments) == len(geojson["features"]) == 33
 assert len(causes) == 10 and causes["CAUSA"].ne("Descripción no disponible").all()
 assert len(violent) == 5
-assert len(low) == 10
+assert len(low) == 5
 assert monthly.loc[monthly["TOTAL"].idxmax(), "MES_NOMBRE"] == "Diciembre"
 assert monthly.loc[monthly["TOTAL"].idxmin(), "MES_NOMBRE"] == "Febrero"
 

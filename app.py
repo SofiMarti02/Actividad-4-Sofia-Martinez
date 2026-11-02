@@ -61,21 +61,39 @@ def style_figure(fig: go.Figure, height: int = 420) -> go.Figure:
     return fig
 
 
-map_figure = px.choropleth(
-    department_totals,
-    geojson=geojson,
-    locations="COD_DEPARTAMENTO",
-    featureidkey="properties.divipola_dep",
-    color="TOTAL",
-    hover_name="DEPARTAMENTO",
-    hover_data={"COD_DEPARTAMENTO": False, "TOTAL": ":,d"},
-    color_continuous_scale=["#DBEAFE", "#60A5FA", "#1D4ED8", "#132238"],
-    labels={"TOTAL": "Defunciones"},
-    title="Distribución total por departamento",
-)
-map_figure.update_geos(fitbounds="locations", visible=False, bgcolor="rgba(0,0,0,0)")
-map_figure.update_layout(coloraxis_colorbar=dict(title="Defunciones", thickness=12), dragmode=False)
-style_figure(map_figure, 520)
+def build_map(selected_department: str = "ALL") -> go.Figure:
+    figure = px.choropleth(
+        department_totals,
+        geojson=geojson,
+        locations="COD_DEPARTAMENTO",
+        featureidkey="properties.divipola_dep",
+        color="TOTAL",
+        hover_name="DEPARTAMENTO",
+        hover_data={"COD_DEPARTAMENTO": False, "TOTAL": ":,d"},
+        color_continuous_scale=["#DBEAFE", "#60A5FA", "#1D4ED8", "#132238"],
+        labels={"TOTAL": "Defunciones"},
+        title="Distribución total por departamento",
+    )
+    if selected_department != "ALL":
+        selected_name = department_totals.loc[
+            department_totals["COD_DEPARTAMENTO"] == selected_department, "DEPARTAMENTO"
+        ].iloc[0]
+        figure.add_trace(go.Choropleth(
+            geojson=geojson,
+            locations=[selected_department],
+            z=[1],
+            featureidkey="properties.divipola_dep",
+            colorscale=[[0, "rgba(245,158,11,0.16)"], [1, "rgba(245,158,11,0.16)"]],
+            marker_line_color=COLORS["gold"],
+            marker_line_width=5,
+            showscale=False,
+            name=f"Seleccionado: {selected_name.title()}",
+            hovertemplate=f"<b>{selected_name.title()}</b><br>Departamento seleccionado<extra></extra>",
+        ))
+        figure.update_layout(title=f"Distribución total por departamento · Selección: {selected_name.title()}")
+    figure.update_geos(fitbounds="locations", visible=False, bgcolor="rgba(0,0,0,0)")
+    figure.update_layout(coloraxis_colorbar=dict(title="Defunciones", thickness=12), dragmode=False, showlegend=False)
+    return style_figure(figure, 520)
 
 violent_figure = px.bar(
     violent_cities.sort_values("TOTAL"),
@@ -94,7 +112,7 @@ pie_figure = px.pie(
     values="TOTAL", names="MUNICIPIO", hole=0.52,
     color_discrete_sequence=px.colors.qualitative.Safe,
     custom_data=["DEPARTAMENTO"],
-    title="10 ciudades con menor número de defunciones registradas",
+    title="5 ciudades con menor número de defunciones registradas",
 )
 pie_figure.update_traces(textposition="inside", textinfo="label+value", hovertemplate="<b>%{label}</b><br>%{customdata[0]}<br>Defunciones: %{value}<extra></extra>")
 style_figure(pie_figure)
@@ -141,7 +159,7 @@ app.layout = html.Div([
             html.Div([html.Label("Departamento"), dcc.Dropdown(id="department-filter", options=[{"label": "Toda Colombia", "value": "ALL"}] + [{"label": row.DEPARTAMENTO.title(), "value": row.COD_DEPARTAMENTO} for row in department_totals.sort_values("DEPARTAMENTO").itertuples()], value="ALL", clearable=False)]),
             html.Div([html.Label("Sexo"), dcc.Dropdown(id="sex-filter", options=[{"label": "Todos", "value": "ALL"}, {"label": "Hombres", "value": "Hombres"}, {"label": "Mujeres", "value": "Mujeres"}, {"label": "Indeterminado", "value": "Indeterminado"}], value="ALL", clearable=False)]),
         ], className="filters"),
-        html.Section([html.Div(dcc.Graph(figure=map_figure, config={"displayModeBar": False}), className="card wide")], className="grid"),
+        html.Section([html.Div(dcc.Graph(id="department-map", figure=build_map(), config={"displayModeBar": False}), className="card wide")], className="grid"),
         html.Section([
             html.Div(dcc.Graph(id="monthly-chart", config={"displayModeBar": False}), className="card"),
             html.Div(dcc.Graph(id="age-chart", config={"displayModeBar": False}), className="card"),
@@ -176,6 +194,7 @@ app.layout = html.Div([
 
 
 @app.callback(
+    Output("department-map", "figure"),
     Output("monthly-chart", "figure"),
     Output("age-chart", "figure"),
     Input("department-filter", "value"),
@@ -205,7 +224,7 @@ def update_filtered_charts(department: str, sex: str):
     age_figure.update_traces(hovertemplate="<b>%{x}</b><br>Defunciones: %{y:,}<extra></extra>")
     age_figure.update_xaxes(tickangle=-45, categoryorder="array", categoryarray=AGE_ORDER)
     style_figure(age_figure)
-    return monthly_figure, age_figure
+    return build_map(department), monthly_figure, age_figure
 
 
 if __name__ == "__main__":
