@@ -113,15 +113,19 @@ El script normaliza los códigos territoriales, vincula municipio y departamento
 
 ### Vista nacional
 
-![Vista completa del dashboard](assets/dashboard-completo.png)
+<img width="1752" height="916" alt="image" src="https://github.com/user-attachments/assets/102bdcc5-4652-4eca-843d-4394e3db113d" />
+
+
 
 La vista nacional reúne 244.355 defunciones. El mapa permite identificar la concentración territorial, mientras la serie mensual evidencia el máximo de diciembre (21.678) y el mínimo de febrero (17.974). La tabla muestra que el infarto agudo del miocardio no especificado (`I219`) es la causa específica más frecuente, con 35.088 casos.
 
 ### Ejemplo de exploración: Antioquia
 
-![Dashboard filtrado por Antioquia](assets/dashboard-filtro-antioquia.png)
+<img width="1248" height="907" alt="image" src="https://github.com/user-attachments/assets/7c2243b4-3c68-4213-91a0-de53a7094cb4" />
 
-Al elegir Antioquia, el mapa resalta el departamento con un contorno dorado y la serie mensual y la distribución por ciclo de vida se recalculan. Este comportamiento permite contrastar el patrón departamental con el contexto general del país.
+
+
+Al elegir Antioquia, el mapa resalta el departamento con un contorno naranja y la serie mensual y la distribución por ciclo de vida se recalculan. Este comportamiento permite contrastar el patrón departamental con el contexto general del país.
 
 ## Fuentes
 
